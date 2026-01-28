@@ -16,7 +16,7 @@ export default function BookPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-12"
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-red-600 via-red-500 to-red-600 bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 pt-8 bg-gradient-to-r from-red-600 via-red-500 to-red-600 bg-clip-text text-transparent">
               BOOK A SESSION
             </h1>
             <p className="text-gray-700 text-lg">

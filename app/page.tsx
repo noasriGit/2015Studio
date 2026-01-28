@@ -2,6 +2,7 @@
 
 import { Navbar } from "@/components/Navbar";
 import { PsychedelicBackground } from "@/components/PsychedelicBackground";
+import { StudioSelector } from "@/components/StudioSelector";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold text-black mb-6"
+            className="text-5xl md:text-7xl lg:text-8xl font-bold text-black mb-6 pt-20"
           >
             20/15 STUDIOS
           </motion.h1>
@@ -85,22 +86,8 @@ export default function Home() {
             </a>
           </motion.div>
 
-          {/* Book Now Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <Link href="/book">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-red-600 text-white text-lg font-bold rounded border-2 border-red-600 hover:bg-red-700 hover:border-red-700 transition-all shadow-lg shadow-red-500/30"
-              >
-                BOOK NOW
-              </motion.button>
-            </Link>
-          </motion.div>
+          {/* Studio Selector Card */}
+          <StudioSelector />
         </div>
       </section>
     </main>

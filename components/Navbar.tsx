@@ -2,22 +2,54 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 export function Navbar() {
   const pathname = usePathname();
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation after component mounts
+    const timer = setTimeout(() => {
+      setHasAnimated(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-40 bg-white border-b-4 border-red-600" style={{ willChange: "transform" }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-30 md:h-24 lg:h-35">
+    <motion.nav
+      initial={{ height: "100vh" }}
+      animate={{ height: hasAnimated ? "auto" : "100vh" }}
+      transition={{ 
+        duration: 1.2, 
+        ease: [0.43, 0.13, 0.23, 0.96],
+        delay: 0.5
+      }}
+      className="fixed top-0 left-0 right-0 z-40 bg-white border-b-4 border-red-600"
+      style={{ willChange: "transform" }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end">
+        <motion.div
+          initial={{ paddingBottom: "3rem" }}
+          animate={{ 
+            paddingBottom: hasAnimated ? "0rem" : "3rem"
+          }}
+          transition={{ 
+            duration: 1.2, 
+            ease: [0.43, 0.13, 0.23, 0.96],
+            delay: 0.5
+          }}
+          className="flex items-center justify-between w-full h-30 md:h-24 lg:h-35"
+        >
           {/* Logo/Studio Name */}
           <Link href="/" className="flex items-center gap-3 group">
             <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
               style={{ willChange: "transform" }}
               className="relative h-30 md:h-24 lg:h-35 w-auto"
             >
@@ -33,7 +65,12 @@ export function Navbar() {
           </Link>
 
           {/* Navigation Items with Hardware UI */}
-          <div className="flex items-center gap-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex items-center gap-6"
+          >
             <Link
               href="/book"
               className={`text-sm px-3 py-1.5 rounded border transition-all ${
@@ -54,11 +91,10 @@ export function Navbar() {
             >
               ADMIN
             </Link>
-
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }
 
