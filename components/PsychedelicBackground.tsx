@@ -46,8 +46,9 @@ function PsychedelicBackgroundComponent() {
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
 
-      // Number of lines - increased 5x for more compact pattern
-      const numLines = 100;
+      // Number of lines - reduce by 40% on mobile
+      const isMobile = width < 768;
+      const numLines = isMobile ? 60 : 100;
       const spacing = width / (numLines + 1);
 
       for (let i = 0; i < numLines; i++) {
@@ -124,7 +125,7 @@ function PsychedelicBackgroundComponent() {
       }
 
       // Enhanced horizontal flowing lines with more complexity
-      const numHorizontal = 80;
+      const numHorizontal = isMobile ? 48 : 80;
       const hSpacing = height / (numHorizontal + 1);
       
       for (let i = 0; i < numHorizontal; i++) {
@@ -198,7 +199,7 @@ function PsychedelicBackgroundComponent() {
       }
       
       // Add diagonal flowing lines for extra psychedelic effect
-      const numDiagonal = 30;
+      const numDiagonal = isMobile ? 18 : 30;
       for (let i = 0; i < numDiagonal; i++) {
         ctx.beginPath();
         
