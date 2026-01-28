@@ -1,0 +1,231 @@
+"use client";
+
+import { useEffect, useRef, memo } from "react";
+
+function PsychedelicBackgroundComponent() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationFrameRef = useRef<number | undefined>(undefined);
+  const timeRef = useRef(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d", { 
+      alpha: true,
+      desynchronized: true,
+    });
+    if (!ctx) return;
+
+    // Set canvas size
+    const setCanvasSize = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    };
+    setCanvasSize();
+
+    // Handle resize
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(setCanvasSize, 100);
+    };
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    // Create flowing curved lines
+    const drawLines = (currentTime: number) => {
+      const width = canvas.width;
+      const height = canvas.height;
+      
+      // Clear canvas
+      ctx.clearRect(0, 0, width, height);
+      
+      // Enhanced psychedelic line style with dynamic variations
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+
+      // Number of lines - increased 5x for more compact pattern
+      const numLines = 100;
+      const spacing = width / (numLines + 1);
+
+      for (let i = 0; i < numLines; i++) {
+        ctx.beginPath();
+        
+        const baseX = spacing * (i + 1);
+        const time = currentTime * 0.0008;
+        const phase = (i / numLines) * Math.PI * 2;
+        
+        // Dynamic color and width variations for more psychedelic effect
+        const colorVariation = Math.sin(time * 0.5 + phase) * 0.03;
+        const opacity = 0.08 + Math.sin(time * 1.2 + phase) * 0.06;
+        ctx.strokeStyle = `rgba(${Math.floor(100 + colorVariation * 30)}, ${Math.floor(100 + colorVariation * 20)}, ${Math.floor(100 + colorVariation * 25)}, ${opacity})`;
+        ctx.lineWidth = 0.6 + Math.sin(time * 2 + phase) * 0.5;
+        
+        // Start point with variation
+        let x = baseX + Math.sin(time * 0.4 + phase) * 25;
+        let y = -50;
+        
+        ctx.moveTo(x, y);
+        
+        // Draw flowing curve down the screen with more complex waves
+        const segments = 100;
+        const segmentHeight = (height + 100) / segments;
+        
+        for (let j = 0; j <= segments; j++) {
+          const progress = j / segments;
+          const yPos = y + (segmentHeight * j);
+          
+          // More complex, layered sine waves for organic flow
+          const wave1 = Math.sin(progress * Math.PI * 5 + time + phase) * 55;
+          const wave2 = Math.sin(progress * Math.PI * 8 + time * 1.5 + phase * 1.7) * 35;
+          const wave3 = Math.sin(progress * Math.PI * 3 + time * 0.6 + phase * 0.9) * 75;
+          const wave4 = Math.sin(progress * Math.PI * 12 + time * 2.2 + phase * 2.3) * 20;
+          const wave5 = Math.sin(progress * Math.PI * 15 + time * 2.8 + phase * 3.1) * 12;
+          
+          // More dynamic horizontal drift with multiple frequencies
+          const drift = Math.sin(time * 0.5 + phase) * 45 * progress;
+          const drift2 = Math.cos(time * 0.3 + phase * 1.3) * 30 * Math.sin(progress * Math.PI);
+          const drift3 = Math.sin(time * 0.7 + phase * 0.6) * 20 * Math.cos(progress * Math.PI * 2);
+          
+          // Add rotation-like effect
+          const rotation = Math.sin(time * 0.2 + phase) * 25 * progress;
+          
+          x = baseX + wave1 + wave2 + wave3 + wave4 + wave5 + drift + drift2 + drift3 + rotation;
+          
+          ctx.lineTo(x, yPos);
+        }
+        
+        ctx.stroke();
+      }
+
+      // Enhanced horizontal flowing lines with more complexity
+      const numHorizontal = 80;
+      const hSpacing = height / (numHorizontal + 1);
+      
+      for (let i = 0; i < numHorizontal; i++) {
+        ctx.beginPath();
+        
+        const baseY = hSpacing * (i + 1);
+        const hTime = currentTime * 0.0006;
+        const hPhase = (i / numHorizontal) * Math.PI * 2;
+        
+        // Dynamic color and width for horizontal lines
+        const hColorVariation = Math.cos(hTime * 0.4 + hPhase) * 0.03;
+        const hOpacity = 0.08 + Math.cos(hTime * 1.1 + hPhase) * 0.06;
+        ctx.strokeStyle = `rgba(${Math.floor(100 + hColorVariation * 30)}, ${Math.floor(100 + hColorVariation * 20)}, ${Math.floor(100 + hColorVariation * 25)}, ${hOpacity})`;
+        ctx.lineWidth = 0.6 + Math.cos(hTime * 1.8 + hPhase) * 0.5;
+        
+        let x = -50 + Math.cos(hTime * 0.3 + hPhase) * 20;
+        let y = baseY;
+        
+        ctx.moveTo(x, y);
+        
+        const hSegments = 80;
+        const segmentWidth = (width + 100) / hSegments;
+        
+        for (let j = 0; j <= hSegments; j++) {
+          const progress = j / hSegments;
+          const xPos = x + (segmentWidth * j);
+          
+          // More complex vertical waves
+          const vWave1 = Math.sin(progress * Math.PI * 4 + hTime + hPhase) * 50;
+          const vWave2 = Math.sin(progress * Math.PI * 7 + hTime * 1.4 + hPhase * 1.6) * 32;
+          const vWave3 = Math.sin(progress * Math.PI * 2.8 + hTime * 0.7 + hPhase * 0.8) * 60;
+          const vWave4 = Math.sin(progress * Math.PI * 11 + hTime * 2.1 + hPhase * 2.2) * 22;
+          const vWave5 = Math.sin(progress * Math.PI * 14 + hTime * 2.6 + hPhase * 2.8) * 15;
+          
+          const vDrift = Math.cos(hTime * 0.5 + hPhase) * 40 * progress;
+          const vDrift2 = Math.sin(hTime * 0.35 + hPhase * 1.4) * 25 * Math.cos(progress * Math.PI);
+          const vDrift3 = Math.cos(hTime * 0.6 + hPhase * 0.9) * 18 * Math.sin(progress * Math.PI * 1.5);
+          
+          // Rotation effect
+          const vRotation = Math.cos(hTime * 0.25 + hPhase) * 30 * progress;
+          
+          y = baseY + vWave1 + vWave2 + vWave3 + vWave4 + vWave5 + vDrift + vDrift2 + vDrift3 + vRotation;
+          
+          ctx.lineTo(xPos, y);
+        }
+        
+        ctx.stroke();
+      }
+      
+      // Add diagonal flowing lines for extra psychedelic effect
+      const numDiagonal = 30;
+      for (let i = 0; i < numDiagonal; i++) {
+        ctx.beginPath();
+        
+        const dTime = currentTime * 0.0005;
+        const dPhase = (i / numDiagonal) * Math.PI * 2;
+        const angle = (i / numDiagonal) * Math.PI * 0.6 - Math.PI * 0.3; // -30 to 30 degrees
+        
+        // Subtle color for diagonals
+        const dColorVariation = Math.sin(dTime * 0.6 + dPhase) * 0.02;
+        const dOpacity = 0.1 + Math.sin(dTime + dPhase) * 2;
+        ctx.strokeStyle = `rgba(${Math.floor(100 + dColorVariation * 20)}, ${Math.floor(100 + dColorVariation * 15)}, ${Math.floor(100 + dColorVariation * 18)}, ${dOpacity})`;
+        ctx.lineWidth = 0.5 + Math.sin(dTime * 1.5 + dPhase) * 0.3;
+        
+        const diagonalLength = Math.sqrt(width * width + height * height);
+        const centerX = width / 2;
+        const centerY = height / 2;
+        
+        const startX = centerX - Math.cos(angle) * diagonalLength * 0.7;
+        const startY = centerY - Math.sin(angle) * diagonalLength * 0.7;
+        
+        ctx.moveTo(startX, startY);
+        
+        const dSegments = 80;
+        for (let j = 0; j <= dSegments; j++) {
+          const progress = j / dSegments;
+          const dist = progress * diagonalLength * 1.4;
+          
+          // Perpendicular wave to the diagonal with multiple frequencies
+          const perpWave = Math.sin(progress * Math.PI * 6 + dTime + dPhase) * 35;
+          const perpWave2 = Math.sin(progress * Math.PI * 9 + dTime * 1.8 + dPhase * 1.5) * 22;
+          const perpWave3 = Math.sin(progress * Math.PI * 13 + dTime * 2.4 + dPhase * 2.1) * 12;
+          
+          const perpAngle = angle + Math.PI / 2;
+          const x = startX + Math.cos(angle) * dist + Math.cos(perpAngle) * (perpWave + perpWave2 + perpWave3);
+          const y = startY + Math.sin(angle) * dist + Math.sin(perpAngle) * (perpWave + perpWave2 + perpWave3);
+          
+          ctx.lineTo(x, y);
+        }
+        
+        ctx.stroke();
+      }
+
+      timeRef.current = currentTime;
+    };
+
+    // Animation loop
+    const animate = (currentTime: number) => {
+      drawLines(currentTime);
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
+
+    animationFrameRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      clearTimeout(resizeTimeout);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-0"
+      style={{ 
+        imageRendering: "auto",
+        willChange: "transform",
+        transform: "translateZ(0)",
+      }}
+    />
+  );
+}
+
+export const PsychedelicBackground = memo(PsychedelicBackgroundComponent);
