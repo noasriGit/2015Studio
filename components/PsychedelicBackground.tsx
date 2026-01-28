@@ -57,11 +57,34 @@ function PsychedelicBackgroundComponent() {
         const time = currentTime * 0.0008;
         const phase = (i / numLines) * Math.PI * 2;
         
-        // Dynamic color and width variations for more psychedelic effect
-        const colorVariation = Math.sin(time * 0.5 + phase) * 0.03;
-        const opacity = 0.08 + Math.sin(time * 1.2 + phase) * 0.06;
-        ctx.strokeStyle = `rgba(${Math.floor(100 + colorVariation * 30)}, ${Math.floor(100 + colorVariation * 20)}, ${Math.floor(100 + colorVariation * 25)}, ${opacity})`;
-        ctx.lineWidth = 0.6 + Math.sin(time * 2 + phase) * 0.5;
+        // Thin lines - mainly black/grey with occasional gold/red accents
+        const colorChance = Math.sin(time * 0.3 + phase * 2) * 0.5 + 0.5; // 0 to 1
+        const useColor = colorChance > 0.85; // Only 15% chance of color
+        
+        // Vary opacity - some lines are more transparent
+        const opacityVariation = Math.sin(phase * 3) * 0.5 + 0.5; // 0 to 1
+        const baseOpacity = opacityVariation < 0.3 ? 0.1 : (opacityVariation < 0.6 ? 0.2 : 0.3);
+        
+        if (useColor) {
+          // Alternate between gold and red
+          const colorType = Math.floor((time * 0.2 + phase) * 2) % 2;
+          if (colorType === 0) {
+            // Gold: HSL(45, 80%, 50%)
+            const goldSaturation = 70 + Math.sin(time * 0.8 + phase) * 10;
+            const goldLightness = 45 + Math.cos(time * 1.2 + phase * 1.5) * 8;
+            ctx.strokeStyle = `hsla(45, ${goldSaturation}%, ${goldLightness}%, ${baseOpacity + Math.sin(time * 1.5 + phase) * 0.05})`;
+          } else {
+            // Red: HSL(0, 80%, 50%)
+            const redSaturation = 70 + Math.sin(time * 0.8 + phase) * 10;
+            const redLightness = 45 + Math.cos(time * 1.2 + phase * 1.5) * 8;
+            ctx.strokeStyle = `hsla(0, ${redSaturation}%, ${redLightness}%, ${baseOpacity + Math.sin(time * 1.5 + phase) * 0.05})`;
+          }
+        } else {
+          // Black/grey
+          const greyValue = 20 + Math.sin(time * 0.5 + phase) * 15;
+          ctx.strokeStyle = `rgba(${greyValue}, ${greyValue}, ${greyValue}, ${baseOpacity * 0.8 + Math.sin(time * 1.5 + phase) * 0.05})`;
+        }
+        ctx.lineWidth = 1;
         
         // Start point with variation
         let x = baseX + Math.sin(time * 0.4 + phase) * 25;
@@ -111,11 +134,34 @@ function PsychedelicBackgroundComponent() {
         const hTime = currentTime * 0.0006;
         const hPhase = (i / numHorizontal) * Math.PI * 2;
         
-        // Dynamic color and width for horizontal lines
-        const hColorVariation = Math.cos(hTime * 0.4 + hPhase) * 0.03;
-        const hOpacity = 0.08 + Math.cos(hTime * 1.1 + hPhase) * 0.06;
-        ctx.strokeStyle = `rgba(${Math.floor(100 + hColorVariation * 30)}, ${Math.floor(100 + hColorVariation * 20)}, ${Math.floor(100 + hColorVariation * 25)}, ${hOpacity})`;
-        ctx.lineWidth = 0.6 + Math.cos(hTime * 1.8 + hPhase) * 0.5;
+        // Thin horizontal lines - mainly black/grey with occasional gold/red accents
+        const hColorChance = Math.cos(hTime * 0.25 + hPhase * 2.5) * 0.5 + 0.5;
+        const hUseColor = hColorChance > 0.85; // Only 15% chance of color
+        
+        // Vary opacity - some lines are more transparent
+        const hOpacityVariation = Math.cos(hPhase * 2.7) * 0.5 + 0.5;
+        const hBaseOpacity = hOpacityVariation < 0.3 ? 0.1 : (hOpacityVariation < 0.6 ? 0.2 : 0.3);
+        
+        if (hUseColor) {
+          // Alternate between gold and red
+          const hColorType = Math.floor((hTime * 0.15 + hPhase) * 2) % 2;
+          if (hColorType === 0) {
+            // Gold
+            const hGoldSaturation = 70 + Math.cos(hTime * 0.9 + hPhase) * 10;
+            const hGoldLightness = 45 + Math.sin(hTime * 1.3 + hPhase * 1.2) * 8;
+            ctx.strokeStyle = `hsla(45, ${hGoldSaturation}%, ${hGoldLightness}%, ${hBaseOpacity + Math.cos(hTime * 1.4 + hPhase) * 0.05})`;
+          } else {
+            // Red
+            const hRedSaturation = 70 + Math.cos(hTime * 0.9 + hPhase) * 10;
+            const hRedLightness = 45 + Math.sin(hTime * 1.3 + hPhase * 1.2) * 8;
+            ctx.strokeStyle = `hsla(0, ${hRedSaturation}%, ${hRedLightness}%, ${hBaseOpacity + Math.cos(hTime * 1.4 + hPhase) * 0.05})`;
+          }
+        } else {
+          // Black/grey
+          const hGreyValue = 20 + Math.cos(hTime * 0.4 + hPhase) * 15;
+          ctx.strokeStyle = `rgba(${hGreyValue}, ${hGreyValue}, ${hGreyValue}, ${hBaseOpacity * 0.8 + Math.cos(hTime * 1.4 + hPhase) * 0.05})`;
+        }
+        ctx.lineWidth = 1;
         
         let x = -50 + Math.cos(hTime * 0.3 + hPhase) * 20;
         let y = baseY;
@@ -160,11 +206,34 @@ function PsychedelicBackgroundComponent() {
         const dPhase = (i / numDiagonal) * Math.PI * 2;
         const angle = (i / numDiagonal) * Math.PI * 0.6 - Math.PI * 0.3; // -30 to 30 degrees
         
-        // Subtle color for diagonals
-        const dColorVariation = Math.sin(dTime * 0.6 + dPhase) * 0.02;
-        const dOpacity = 0.1 + Math.sin(dTime + dPhase) * 2;
-        ctx.strokeStyle = `rgba(${Math.floor(100 + dColorVariation * 20)}, ${Math.floor(100 + dColorVariation * 15)}, ${Math.floor(100 + dColorVariation * 18)}, ${dOpacity})`;
-        ctx.lineWidth = 0.5 + Math.sin(dTime * 1.5 + dPhase) * 0.3;
+        // Thin diagonal lines - mainly black/grey with occasional gold/red accents
+        const dColorChance = Math.sin(dTime * 0.2 + dPhase * 3) * 0.5 + 0.5;
+        const dUseColor = dColorChance > 0.88; // Only 12% chance of color
+        
+        // Vary opacity - some lines are more transparent
+        const dOpacityVariation = Math.sin(dPhase * 3.2) * 0.5 + 0.5;
+        const dBaseOpacity = dOpacityVariation < 0.3 ? 0.08 : (dOpacityVariation < 0.6 ? 0.15 : 0.25);
+        
+        if (dUseColor) {
+          // Alternate between gold and red
+          const dColorType = Math.floor((dTime * 0.1 + dPhase) * 2) % 2;
+          if (dColorType === 0) {
+            // Gold
+            const dGoldSaturation = 70 + Math.sin(dTime * 0.7 + dPhase) * 10;
+            const dGoldLightness = 45 + Math.cos(dTime * 1.1 + dPhase * 1.3) * 8;
+            ctx.strokeStyle = `hsla(45, ${dGoldSaturation}%, ${dGoldLightness}%, ${dBaseOpacity + Math.sin(dTime * 1.3 + dPhase) * 0.05})`;
+          } else {
+            // Red
+            const dRedSaturation = 70 + Math.sin(dTime * 0.7 + dPhase) * 10;
+            const dRedLightness = 45 + Math.cos(dTime * 1.1 + dPhase * 1.3) * 8;
+            ctx.strokeStyle = `hsla(0, ${dRedSaturation}%, ${dRedLightness}%, ${dBaseOpacity + Math.sin(dTime * 1.3 + dPhase) * 0.05})`;
+          }
+        } else {
+          // Black/grey
+          const dGreyValue = 20 + Math.sin(dTime * 0.35 + dPhase) * 15;
+          ctx.strokeStyle = `rgba(${dGreyValue}, ${dGreyValue}, ${dGreyValue}, ${dBaseOpacity * 0.8 + Math.sin(dTime * 1.3 + dPhase) * 0.05})`;
+        }
+        ctx.lineWidth = 1;
         
         const diagonalLength = Math.sqrt(width * width + height * height);
         const centerX = width / 2;
