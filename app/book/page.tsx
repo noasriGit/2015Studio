@@ -2,11 +2,13 @@
 
 import { Navbar } from "@/components/Navbar";
 import { BookingForm } from "@/components/BookingForm";
+import { PsychedelicBackground } from "@/components/PsychedelicBackground";
 import { motion } from "framer-motion";
 
 export default function BookPage() {
   return (
     <main className="relative min-h-screen">
+      <PsychedelicBackground />
       <Navbar />
 
       <section className="relative z-10 pt-32 pb-20 px-4 sm:px-6 lg:px-8">

@@ -27,7 +27,7 @@ export function Navbar() {
         ease: [0.43, 0.13, 0.23, 0.96],
         delay: 0.5
       }}
-      className="fixed top-0 left-0 right-0 z-40 bg-white border-b-4 border-red-600"
+      className="fixed top-0 left-0 right-0 z-40 bg-white border-b-8 border-red-600"
       style={{ willChange: "transform" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end">

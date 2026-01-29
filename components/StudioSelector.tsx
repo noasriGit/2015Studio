@@ -26,10 +26,12 @@ export function StudioSelector() {
     }
   };
 
-  // Calculate knob rotation angle based on selected option
+  // Calculate knob rotation angle based on selected option and screen size
   const getKnobRotation = () => {
-    if (selectedOption === "book") return -55; // Point to top option
-    if (selectedOption === "view") return -120; // Point to bottom option
+    // On mobile (vertical layout): top = -90, bottom = 90
+    // On desktop (horizontal layout): left = -90, right = 90
+    if (selectedOption === "book") return -90;
+    if (selectedOption === "view") return 90;
     return 0; // Center position
   };
 
@@ -38,123 +40,30 @@ export function StudioSelector() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.6 }}
-      className="w-full max-w-md mx-auto"
+      className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 px-4"
     >
-      <div className="backdrop-blur-[3px] border-4 border-white/10 rounded-lg p-8 shadow-lg shadow-black/5">
-        <div className="flex items-center justify-between gap-8">
-          {/* Options Section */}
-          <div className="flex flex-col gap-6 flex-1">
-            {/* Book Now Option */}
-            <button
-              onClick={() => handleSelection("book")}
-              disabled={isAnimating}
-              className={`flex items-center gap-3 group cursor-pointer transition-all ${
-                isAnimating ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              <div className="relative w-6 h-6 flex-shrink-0">
-                {/* Outer circle */}
-                <div className={`absolute inset-0 rounded-full border-2 transition-colors ${
-                  selectedOption === "book" 
-                    ? "border-red-600 bg-red-600/10" 
-                    : "border-gray-400 group-hover:border-red-500"
-                }`} />
-                {/* Inner dot */}
-                <motion.div
-                  initial={false}
-                  animate={{
-                    scale: selectedOption === "book" ? 1 : 0,
-                    opacity: selectedOption === "book" ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute inset-2 rounded-full bg-red-600"
-                />
-              </div>
-              <span className={`text-lg font-bold transition-colors ${
-                selectedOption === "book" 
-                  ? "text-red-600" 
-                  : "text-black group-hover:text-red-600"
-              }`}>
-                Book Now
-              </span>
-            </button>
+      {/* Book Now Button - Top on mobile, Left on desktop */}
+      <motion.button
+        onClick={() => handleSelection("book")}
+        disabled={isAnimating}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`w-[60%] md:w-auto px-8 md:px-12 py-4 text-base md:text-lg font-bold rounded border-2 transition-all shadow-lg md:min-w-[200px] ${
+          isAnimating ? "opacity-50 cursor-not-allowed" : ""
+        } ${
+          selectedOption === "book"
+            ? "bg-red-600 text-white border-red-600"
+            : "bg-white text-black border-red-600 hover:bg-red-600 hover:text-white shadow-red-500/30"
+        }`}
+      >
+        Book Now
+      </motion.button>
 
-            {/* View Studio Option */}
-            <button
-              onClick={() => handleSelection("view")}
-              disabled={isAnimating}
-              className={`flex items-center gap-3 group cursor-pointer transition-all ${
-                isAnimating ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              <div className="relative w-6 h-6 flex-shrink-0">
-                {/* Outer circle */}
-                <div className={`absolute inset-0 rounded-full border-2 transition-colors ${
-                  selectedOption === "view" 
-                    ? "border-red-600 bg-red-600/10" 
-                    : "border-gray-400 group-hover:border-red-500"
-                }`} />
-                {/* Inner dot */}
-                <motion.div
-                  initial={false}
-                  animate={{
-                    scale: selectedOption === "view" ? 1 : 0,
-                    opacity: selectedOption === "view" ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute inset-2 rounded-full bg-red-600"
-                />
-              </div>
-              <span className={`text-lg font-bold transition-colors ${
-                selectedOption === "view" 
-                  ? "text-red-600" 
-                  : "text-black group-hover:text-red-600"
-              }`}>
-                View the Studio
-              </span>
-            </button>
-          </div>
-
-          {/* Studio Volume Knob */}
-          <div className="flex-shrink-0">
-            <div className="relative w-28 h-28 rounded-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black border-2 border-zinc-700 shadow-2xl shadow-black/60">
-              {/* Outer metallic ring */}
-              <div className="absolute inset-0 rounded-full ring-1 ring-zinc-600/50" />
-              
-              {/* Knob ridges for grip */}
-              <div className="absolute inset-3 rounded-full">
-                {[...Array(24)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute inset-0"
-                    style={{
-                      transform: `rotate(${i * 15}deg)`,
-                    }}
-                  >
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-3 bg-gradient-to-b from-zinc-600 to-transparent" />
-                  </div>
-                ))}
-              </div>
-              
-              {/* Rotating indicator - professional white line */}
-              <motion.div
-                animate={{ rotate: getKnobRotation() }}
-                transition={{ 
-                  duration: 1, 
-                  ease: [0.43, 0.13, 0.23, 0.96]
-                }}
-                className="absolute inset-0 flex items-start justify-center pt-3"
-              >
-                <div className="w-1 h-10 bg-white rounded-sm shadow-lg shadow-white/50" />
-              </motion.div>
-
-              {/* Center cap with metallic look */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900 border border-zinc-600 shadow-inner" />
-              </div>
-
-              {/* Position markers */}
-              {[-60, -30, 0, 30, 60].map((angle, i) => (
+      {/* Studio Volume Knob - Middle on mobile, Center on desktop */}
+      <div className="flex-shrink-0 order-2 md:order-none">
+            <div className="relative w-24 h-24 rounded-full bg-zinc-900 border-2 border-zinc-800 shadow-lg">
+              {/* Position dots around the edge */}
+              {[-45, 0, 45].map((angle, i) => (
                 <div
                   key={i}
                   className="absolute inset-0"
@@ -162,13 +71,60 @@ export function StudioSelector() {
                     transform: `rotate(${angle}deg)`,
                   }}
                 >
-                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-2 bg-zinc-500 rounded-sm" />
+                  <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-zinc-700" />
                 </div>
               ))}
+
+              {/* Grip texture - vertical lines */}
+              <div className="absolute inset-4 rounded-full overflow-hidden">
+                {[...Array(32)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute inset-0"
+                    style={{
+                      transform: `rotate(${i * 11.25}deg)`,
+                    }}
+                  >
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-4 bg-zinc-800" />
+                  </div>
+                ))}
+              </div>
+              
+              {/* Rotating indicator - white notch at top */}
+              <motion.div
+                animate={{ rotate: getKnobRotation() }}
+                transition={{ 
+                  duration: 1, 
+                  ease: [0.43, 0.13, 0.23, 0.96]
+                }}
+                className="absolute inset-0"
+              >
+                <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-1 h-4 bg-white rounded-full" />
+              </motion.div>
+
+              {/* Center cap */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-zinc-800 border border-zinc-700" />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+
+      {/* View Studio Button - Bottom on mobile, Right on desktop */}
+      <motion.button
+        onClick={() => handleSelection("view")}
+        disabled={isAnimating}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`w-[60%] md:w-auto px-8 py-4 text-base md:text-lg font-bold rounded border-2 transition-all shadow-lg md:min-w-[200px] ${
+          isAnimating ? "opacity-50 cursor-not-allowed" : ""
+        } ${
+          selectedOption === "view"
+            ? "bg-red-600 text-white border-red-600"
+            : "bg-white text-black border-red-600 hover:bg-red-600 hover:text-white shadow-red-500/30"
+        }`}
+      >
+        View the Studio
+      </motion.button>
     </motion.div>
   );
 }

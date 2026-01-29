@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Tilt_Warp } from "next/font/google";
 import "./globals.css";
 
-const helveticaNeueBlack = localFont({
-  src: "../public/HelveticaNeueBlack.otf",
-  variable: "--font-helvetica-neue-black",
+const tiltWarp = Tilt_Warp({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-tilt-warp",
   display: "swap",
 });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${helveticaNeueBlack.variable} antialiased`}
+        className={`${tiltWarp.variable} antialiased`}
       >
         {children}
       </body>

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-family-sans: var(--font-helvetica-neue-black), 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-family-mono: var(--font-helvetica-neue-black), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-family-sans: var(--font-tilt-warp), "Tilt Warp", sans-serif;
+  --font-family-mono: var(--font-tilt-warp), "Tilt Warp", sans-serif;
 }
 
 :root {
@@ -31,7 +31,7 @@
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-helvetica-neue-black), 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: var(--font-tilt-warp), "Tilt Warp", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
@@ -65,6 +65,13 @@ body::before {
   will-change: transform;
   transform: translateZ(0);
   /* Removed mix-blend-mode for better performance */
+}
+
+/* Capitalize all buttons, headers, and titles */
+button,
+h1, h2, h3, h4, h5, h6,
+.title {
+  text-transform: uppercase;
 }
 
 /* Smooth scrolling */
