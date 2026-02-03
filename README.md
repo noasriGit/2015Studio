@@ -1,11 +1,11 @@
 # Velvet Studio - Recording Studio Booking System
 
-A premium, award-winning recording studio website preview with an atmospheric dark velvet + soft neon aesthetic. Built with Next.js, TypeScript, TailwindCSS, and Framer Motion.
+A premium recording studio website with a black and gold theme. Built with Next.js, TypeScript, TailwindCSS, and Framer Motion.
 
 ## Features
 
-- **Studio Boot Sequence**: Cinematic startup animation with rack unit, LEDs, and waveform
-- **Animated Background**: Procedural waveforms, grain overlay, and parallax effects
+- **Black & Gold Theme**: Black background, gold text, white music notes background (space-inspired)
+- **Music Notes Background**: Static layer of white music note characters (♪ ♫ ♬ ♩ ♭ ♮ ♯) for a studio vibe
 - **Public Booking Form**: Complete booking system with validation (Zod + React Hook Form)
 - **Admin Dashboard**: Password-protected admin interface for managing bookings
 - **Visual Calendar**: Weekly calendar view with drag-and-drop booking placement
@@ -57,9 +57,9 @@ npm start
 │   ├── layout.tsx            # Root layout
 │   └── globals.css           # Global styles
 ├── components/
-│   ├── AnimatedBackground.tsx # Canvas-based animated background
+│   ├── MusicNotesBackground.tsx # Black background with white music notes
 │   ├── BootSequence.tsx      # Studio boot-up animation
-│   ├── Navbar.tsx            # Studio-themed navigation
+│   ├── Navbar.tsx            # Black/gold navigation
 │   ├── BookingForm.tsx       # Booking form with validation
 │   ├── Calendar.tsx          # Weekly calendar component
 │   └── PendingBookingsList.tsx # Pending bookings display

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Tilt_Warp } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 
-const tiltWarp = Tilt_Warp({
-  weight: "400",
+const montserrat = Montserrat({
+  weight: "900",
   subsets: ["latin"],
-  variable: "--font-tilt-warp",
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${tiltWarp.variable} antialiased`}
+        className={`${montserrat.variable} font-sans antialiased`}
       >
         {children}
       </body>

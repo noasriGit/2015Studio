@@ -1,15 +1,14 @@
 "use client";
 
 import { Navbar } from "@/components/Navbar";
-import { PsychedelicBackground } from "@/components/PsychedelicBackground";
+import { MusicNotesBackground } from "@/components/MusicNotesBackground";
 import { StudioSelector } from "@/components/StudioSelector";
 import { motion } from "framer-motion";
-import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen">
-      <PsychedelicBackground />
+    <main className="relative min-h-screen bg-black">
+      <MusicNotesBackground />
       <Navbar />
 
       {/* Hero Section */}
@@ -19,16 +18,16 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold text-black mb-6 pt-20"
+            className="text-5xl md:text-7xl lg:text-8xl font-bold text-amber-400 mb-6 pt-20"
           >
-            20/15 STUDIOS
+            CAPTURE IT WITH CARE
           </motion.h1>
           
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto"
+            className="text-lg md:text-xl text-amber-200/80 mb-8 max-w-2xl mx-auto"
           >
             Premium recording studio for mixing, mastering, recording, and podcast production.
           </motion.p>
@@ -44,7 +43,7 @@ export default function Home() {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black hover:text-red-600 transition-colors"
+              className="text-amber-400/90 hover:text-amber-300 transition-colors"
               aria-label="Instagram"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -55,7 +54,7 @@ export default function Home() {
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black hover:text-red-600 transition-colors"
+              className="text-amber-400/90 hover:text-amber-300 transition-colors"
               aria-label="Twitter"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -66,7 +65,7 @@ export default function Home() {
               href="https://youtube.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black hover:text-red-600 transition-colors"
+              className="text-amber-400/90 hover:text-amber-300 transition-colors"
               aria-label="YouTube"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -77,7 +76,7 @@ export default function Home() {
               href="https://spotify.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black hover:text-red-600 transition-colors"
+              className="text-amber-400/90 hover:text-amber-300 transition-colors"
               aria-label="Spotify"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

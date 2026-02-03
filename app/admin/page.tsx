@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
+import { MusicNotesBackground } from "@/components/MusicNotesBackground";
 import { PendingBookingsList } from "@/components/PendingBookingsList";
 import { Calendar } from "@/components/Calendar";
 import { Booking } from "@/lib/types";
@@ -153,18 +154,18 @@ export default function AdminPage() {
 
   if (!authenticated) {
     return (
-      <main className="relative min-h-screen">
+      <main className="relative min-h-screen bg-black">
         <Navbar />
         <div className="relative z-10 flex items-center justify-center min-h-screen pt-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-md w-full mx-4 p-8 bg-gradient-to-br from-red-50 to-white border border-red-300 rounded-lg"
+            className="max-w-md w-full mx-4 p-8 bg-black/60 border border-amber-500/40 rounded-lg"
           >
-            <h1 className="text-3xl text-red-600 mb-6 text-center">ADMIN LOGIN</h1>
+            <h1 className="text-3xl text-amber-400 mb-6 text-center">ADMIN LOGIN</h1>
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <label className="block text-sm text-red-600 mb-2">Password</label>
+                <label className="block text-sm text-amber-400 mb-2">Password</label>
                 <input
                   type="password"
                   value={password}
@@ -172,21 +173,21 @@ export default function AdminPage() {
                     setPassword(e.target.value);
                     setError("");
                   }}
-                  className="w-full px-4 py-2 bg-white border border-gray-300 rounded focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 text-black"
+                  className="w-full px-4 py-2 bg-black/40 border border-amber-500/40 rounded focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 text-amber-100"
                   autoFocus
                 />
-                {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+                {error && <p className="mt-1 text-xs text-amber-300">{error}</p>}
               </div>
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-3 bg-gradient-to-r from-red-600 to-red-700 text-white font-bold rounded border border-red-500/50 hover:from-red-500 hover:to-red-600 transition-all"
+                className="w-full py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded border border-amber-400/50 hover:from-amber-400 hover:to-amber-500 transition-all"
               >
                 LOGIN
               </motion.button>
             </form>
-            <p className="mt-4 text-xs text-gray-600 text-center">
+            <p className="mt-4 text-xs text-amber-200/60 text-center">
               Demo password: studio123
             </p>
           </motion.div>
@@ -199,14 +200,15 @@ export default function AdminPage() {
   const confirmedBookings = bookings.filter((b) => b.status === "confirmed");
 
   return (
-    <main className="relative min-h-screen">
+    <main className="relative min-h-screen bg-black">
+      <MusicNotesBackground />
       <Navbar />
 
       <div className="relative z-10 pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-red-600 via-red-500 to-red-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold text-amber-400">
               ADMIN DASHBOARD
             </h1>
             <div className="flex gap-3">
@@ -214,7 +216,7 @@ export default function AdminPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={generateSeedData}
-                className="px-4 py-2 bg-blue-600/20 border border-blue-500/50 rounded text-blue-300 text-sm hover:bg-blue-600/30 transition-colors"
+                className="px-4 py-2 bg-amber-500/20 border border-amber-500/50 rounded text-amber-300 text-sm hover:bg-amber-500/30 transition-colors"
               >
                 GENERATE SEED DATA
               </motion.button>
@@ -227,7 +229,7 @@ export default function AdminPage() {
                   setAuthenticated(false);
                   loadBookings();
                 }}
-                className="px-4 py-2 bg-red-600/20 border border-red-500/50 rounded text-red-300 text-sm hover:bg-red-600/30 transition-colors"
+                className="px-4 py-2 bg-amber-500/20 border border-amber-500/50 rounded text-amber-300 text-sm hover:bg-amber-500/30 transition-colors"
               >
                 RESET DATA
               </motion.button>
@@ -235,13 +237,13 @@ export default function AdminPage() {
           </div>
 
           {/* Tabs */}
-          <div className="flex gap-4 mb-8 border-b border-gray-300">
+          <div className="flex gap-4 mb-8 border-b border-amber-500/30">
             <button
               onClick={() => setActiveTab("pending")}
               className={`px-6 py-3 text-sm border-b-2 transition-colors ${
                 activeTab === "pending"
-                  ? "border-red-500 text-red-600"
-                  : "border-transparent text-gray-600 hover:text-gray-800"
+                  ? "border-amber-500 text-amber-400"
+                  : "border-transparent text-amber-200/70 hover:text-amber-300"
               }`}
             >
               PENDING ({pendingBookings.length})
@@ -250,8 +252,8 @@ export default function AdminPage() {
               onClick={() => setActiveTab("calendar")}
               className={`px-6 py-3 text-sm border-b-2 transition-colors ${
                 activeTab === "calendar"
-                  ? "border-red-500 text-red-600"
-                  : "border-transparent text-gray-600 hover:text-gray-800"
+                  ? "border-amber-500 text-amber-400"
+                  : "border-transparent text-amber-200/70 hover:text-amber-300"
               }`}
             >
               CALENDAR ({confirmedBookings.length})
@@ -262,11 +264,11 @@ export default function AdminPage() {
           {activeTab === "pending" && (
             <div>
               {selectedBooking && (
-                <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded text-sm text-yellow-300">
+                <div className="mb-6 p-4 bg-amber-500/10 border border-amber-500/30 rounded text-sm text-amber-300">
                   Selected: {selectedBooking.name} - {selectedBooking.sessionType} - Room {selectedBooking.room}
                   <button
                     onClick={() => setSelectedBooking(null)}
-                    className="ml-4 text-xs underline hover:text-yellow-200"
+                    className="ml-4 text-xs underline hover:text-amber-200"
                   >
                     Clear
                   </button>
@@ -283,12 +285,12 @@ export default function AdminPage() {
           {activeTab === "calendar" && (
             <div>
               {selectedBooking && (
-                <div className="mb-6 p-4 bg-red-50 border border-red-300 rounded text-sm text-red-600">
+                <div className="mb-6 p-4 bg-amber-500/10 border border-amber-500/40 rounded text-sm text-amber-300">
                   Placing: {selectedBooking.name} - {selectedBooking.sessionType} - Room {selectedBooking.room} -{" "}
                   {selectedBooking.durationHours}h
                   <button
                     onClick={() => setSelectedBooking(null)}
-                    className="ml-4 text-xs underline hover:text-red-700"
+                    className="ml-4 text-xs underline hover:text-amber-200"
                   >
                     Cancel
                   </button>
@@ -303,21 +305,21 @@ export default function AdminPage() {
                 onSelectBooking={setSelectedBooking}
               />
               {selectedBooking && selectedBooking.status === "confirmed" && (
-                <div className="mt-6 p-4 bg-red-50 border border-red-300 rounded text-sm">
+                <div className="mt-6 p-4 bg-amber-500/10 border border-amber-500/40 rounded text-sm">
                   <div className="flex items-center justify-between">
-                    <div className="text-red-600">
+                    <div className="text-amber-300">
                       Selected: {selectedBooking.name} - {selectedBooking.sessionType} - Room {selectedBooking.room}
                     </div>
                     <div className="flex gap-3">
                       <button
                         onClick={() => setSelectedBooking(null)}
-                        className="px-4 py-2 bg-gray-600/20 border border-gray-500/50 rounded text-gray-300 hover:bg-gray-600/30 transition-colors"
+                        className="px-4 py-2 bg-amber-500/20 border border-amber-500/50 rounded text-amber-300 hover:bg-amber-500/30 transition-colors"
                       >
                         Clear
                       </button>
                       <button
                         onClick={() => handleDeleteBooking(selectedBooking.id)}
-                        className="px-4 py-2 bg-red-600/20 border border-red-500/50 rounded text-red-300 hover:bg-red-600/30 transition-colors"
+                        className="px-4 py-2 bg-amber-500/20 border border-amber-500/50 rounded text-amber-300 hover:bg-amber-500/30 transition-colors"
                       >
                         Delete
                       </button>
